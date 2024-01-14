@@ -1,0 +1,76 @@
+﻿@page "/login"
+@inject NavigationManager NavManager
+@using Bislerium_v7.Data
+<div class="login-body">
+    <div class="form-login">
+        <form class="text-center" @onsubmit="LoginHandler">
+            <img class="mb-4" src="/appicon.png" alt="" height="72">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <h1 class="h3 mb-3 fw-normal"> Login Page</h1>
+           
+
+            <div class="form-floating w-50 mx-auto">
+                <input type="text" class="form-control username" @bind="_username" placeholder="Username" />
+                <label for="floatingInput">Username</label>
+            </div>
+            <br />
+            <div class="form-floating mb-3  w-50 mx-auto">
+                <input type="password" class="form-control password" @bind="_password" placeholder="Password" />
+                <label for="floatingPassword">Password</label>
+            </div>
+            @if (!string.IsNullOrEmpty(_errorMessage))
+            {
+                <AlertMessage Type="danger" Message="@_errorMessage" />
+            }
+            <button class="w-25 btn btn-lg btn-primary mx-auto" type="submit">
+                <span class="oi oi-account-login"></span> Login
+            </button>
+        </form>
+    </div>
+</div>
+
+@code {
+    [CascadingParameter]
+    private GlobalState _globalState { get; set; }
+    private bool _showDefaultCredentials { get; set; }
+    private string _username { get; set; }
+    private string _password { get; set; }
+    private string _errorMessage = "";
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            var user = UsersService.Login(UsersService.SeedUsername, UsersService.SeedPassword);
+            _showDefaultCredentials = user.HasInitialPassword;
+        }
+        catch { }
+
+        _globalState.CurrentUser = null;
+        _errorMessage = "";
+    }
+
+    private void LoginHandler()
+    {
+        try
+        {
+            _errorMessage = "";
+            _globalState.CurrentUser = UsersService.Login(_username, _password);
+            if (_globalState.CurrentUser != null)
+            {
+                NavManager.NavigateTo(_globalState.CurrentUser.HasInitialPassword ? "/change-password" : "/order");
+            }
+       
+        }
+        catch (Exception e)
+        {
+            _errorMessage = e.Message;
+            Console.WriteLine(e);
+        }
+    }
+}

@@ -1,0 +1,102 @@
+﻿@using Bislerium_v7.Data
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">
+            <h4>☕ BisleriumPOS </h4>
+        </a>
+        <button title="Navigation menu" class="navbar-toggler top-row" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</div>
+
+<div class="top-row">
+    <nav class="flex-column top-row">
+        <div class="nav-item px-3 top-row"><h5 class="text-light">Welcome <strong>@Username</strong>!</h5></div>
+        @if (UserRole == Role.Admin)
+        {
+            <div class="nav-item px-3 top-row">
+                <NavLink class="nav-link" href="users">
+                    <span class="oi oi-person" /> Users
+                </NavLink>
+            </div>
+            <div class="nav-item px-3 top-row">
+                <NavLink class="nav-link" href="coffees">
+                    <span class="oi oi-key" /> Coffee
+                </NavLink>
+            </div>
+            <div class="nav-item px-3 top-row">
+                <NavLink class="nav-link" href="addIns">
+                    <span class="oi oi-key" /> Add Ins
+                </NavLink>
+            </div>
+        }
+
+        <div class="nav-item px-3 top-row">
+            <NavLink class="nav-link" href="order">
+                <span class="oi oi-key" /> Orders
+            </NavLink>
+        </div>
+        <div class="nav-item px-3 top-row">
+            <NavLink class="nav-link" href="orderList">
+                <span class="oi oi-key" /> Order List
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3 top-row">
+            <NavLink class="nav-link" href="generate-report">
+                <span class="oi oi-key" /> Generate Report
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3 top-row">
+            <NavLink class="nav-link" href="change-password">
+                <span class="oi oi-key" /> Change Password
+            </NavLink>
+        </div>
+
+        <div class="nav-item px-3 top-row">
+            <NavLink class="nav-link text-danger" role="button" @onclick="LogoutHandler">
+                <span class="oi oi-account-logout" /> Logout
+            </NavLink>
+        </div>
+        <div class="nav-item px-3 top-row">
+          
+        </div>
+        <div class="nav-item px-3 top-row">
+           
+        </div>
+        <div class="nav-item px-3 top-row">
+          
+        </div>
+        <div class="nav-item px-3 top-row">
+         
+        </div>
+        <div class="nav-item px-3 top-row">
+        </div>
+        <div class="nav-item px-3 top-row">
+        </div>
+        <div class="nav-item px-3 top-row">
+        </div>
+
+
+    </nav>
+</div>
+
+@code {
+    [Parameter]
+    public string Username { get; set; }
+    [Parameter]
+    public Role UserRole { get; set; }
+    [Parameter]
+    public EventCallback LogoutHandler { get; set; }
+
+    private bool _collapseNavMenu { get; set; } = true;
+
+    private void ToggleNavMenu()
+    {
+        _collapseNavMenu = !_collapseNavMenu;
+    }
+}
+  
